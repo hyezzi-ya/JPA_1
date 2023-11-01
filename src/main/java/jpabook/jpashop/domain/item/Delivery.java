@@ -7,6 +7,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+import static javax.persistence.FetchType.*;
+
 @Entity
 @Getter @Setter
 public class Delivery {
@@ -15,12 +17,12 @@ public class Delivery {
     @Column(name = "delivery_id")
     private Long id;
 
-    @OneToOne(mappedBy = "delivery")
+    @OneToOne(mappedBy = "delivery", fetch = LAZY)
     private Order order;
 
     @Embedded
     private Address address;
 
-    @Enumerated(EnumType.STRING) // ORDINARY 절대 사용 xx 순서바뀌면 오류남
+    @Enumerated(EnumType.STRING) // ORDINARY 절대 사용 xx 순서 바뀌면 오류남
     private DeliveryStatus status; //READY, COMP
 }
