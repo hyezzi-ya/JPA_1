@@ -3,6 +3,7 @@ package jpabook.jpashop.domain;
 import jpabook.jpashop.domain.item.Delivery;
 import lombok.Getter;
 import lombok.Setter;
+import org.aspectj.weaver.ast.Or;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -35,5 +36,32 @@ public class Order {
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status; //주문상태 [ORDER, CANCEL]
+
+    //==연관관계 편의메서드==//
+    //양방향일때 쓰기 좋은
+
+    public void setMember(Member member){
+        this.member = member;
+        member.getOrders().add(this);
+    }
+
+//    public static void main(String[] args) {
+//        Member member = new Member();
+//        Order order = new Order();
+//
+//        member.getOrders().add(order);
+//        order.setMember(member);
+//    }
+
+    public void addOrderItem(OrderItem orderItem) {
+        orderItems.add(orderItem);
+        orderItem.setOrder(this);
+    }
+
+    public void setDelivery(Delivery delivery) {
+        this.delivery = delivery;
+        delivery.setOrder(this);
+    }
+
 
 }
